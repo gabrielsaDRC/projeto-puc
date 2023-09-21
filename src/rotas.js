@@ -1,4 +1,6 @@
-import { Route, Routes, HashRouter} from 'react-router-dom';
+import { Route, Routes, HashRouter } from 'react-router-dom';
+
+//Se precisar realizar teste em localhost, tem que trocar o HashRouter para BrowserRouter
 
 import Home from './paginas/Home';
 import Login from './paginas/Login';
