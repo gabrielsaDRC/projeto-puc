@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
 import firebase from 'firebase';
 
 class Home extends Component{
@@ -34,8 +33,8 @@ class Home extends Component{
       return(
         <div>
             <h1>Página principal</h1>
-            <a>Logado como:ㅤ{this.state.nome} {this.state.sobrenome} </a> <br/>
-            <a>Nascido em:ㅤ{this.state.nascimento} </a> <br/>
+            <a>Logado como:{this.state.nome} {this.state.sobrenome} </a> <br/>
+            <a>Nascido em:{this.state.nascimento} </a> <br/>
         </div>
       )
     }
