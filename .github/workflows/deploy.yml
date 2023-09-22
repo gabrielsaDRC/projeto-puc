@@ -37,4 +37,5 @@ jobs:
     steps:
     - name: Deploy no GitHub Pages
       run: |
+        npm install
         npm run deploy
