@@ -80,7 +80,7 @@ jobs:
         env:
           URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
     
-  end:
+  send_message:
     needs: owasp
     runs-on: ubuntu-latest
     - name: Notificação Telegram
