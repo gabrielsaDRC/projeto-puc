@@ -23,21 +23,19 @@ jobs:
       # Execute o teste DAST aqui usando uma ferramenta como OWASP ZAP.
   
   scans:
-    needs: build_and_test
+    #needs: build_and_test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do código
       uses: actions/checkout@v2
 
-    - name: Verificar diretório atual
-      run: echo ${pwd}
-    
     - name: Pull OWASP
       run: docker pull owasp/zap2docker-weekly
-    
+
     - name: Run ZAP API Scan
       run: |
-        sudo docker run -v ${pwd}:/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t openapi.json -f openapi -c api-scan.conf
+        sudo docker run -v $GITHUB_WORKSPACE:/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t openapi.json -f openapi -c api-scan.conf
+
 
 
   docker_upload:
