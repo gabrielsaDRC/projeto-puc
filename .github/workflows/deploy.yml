@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-     - name: Notificação Telegram
+    - name: Notificação Telegram
       uses: appleboy/telegram-action
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
