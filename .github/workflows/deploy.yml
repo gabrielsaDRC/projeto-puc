@@ -53,7 +53,7 @@ jobs:
 
 
   docker_upload:
-    needs: scans
+    needs: owasp
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do código
