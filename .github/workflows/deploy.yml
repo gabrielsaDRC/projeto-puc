@@ -36,7 +36,7 @@ jobs:
     
       - name: Run ZAP API Scan
         run: |
-          docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J /zap/wrk/report_json.json
+          docker run -v ${{ github.workspace }}/zap_reports:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J /zap/wrk/report_json.json
         env:
           URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
     
@@ -44,8 +44,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: zap-reports
-          path: /zap/wrk/report_json.json
-          
+          path: ${{ github.workspace }}/zap_reports
+
   docker_upload:
     needs: owasp
     runs-on: ubuntu-latest
