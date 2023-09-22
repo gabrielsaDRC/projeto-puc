@@ -80,21 +80,21 @@ jobs:
         env:
           URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
     
-    end:
-      needs: owasp
-      runs-on: ubuntu-latest
-      - name: Notificação Telegram
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          message: |
-            🚀 **Novo Deploy Realizado** 🚀
+  end:
+    needs: owasp
+    runs-on: ubuntu-latest
+    - name: Notificação Telegram
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: |
+          🚀 **Novo Deploy Realizado** 🚀
 
-            **Status do Build:** Concluído com sucesso
-            **Versão do Aplicativo:** 1.0.0
-            **Link para o Projeto:** [Acessar Projeto](https://gabrielsadrc.github.io/projeto-puc/)
+          **Status do Build:** Concluído com sucesso
+          **Versão do Aplicativo:** 1.0.0
+          **Link para o Projeto:** [Acessar Projeto](https://gabrielsadrc.github.io/projeto-puc/)
 
-            ✅ O deploy foi realizado com sucesso!
+          ✅ O deploy foi realizado com sucesso!
 
-            👏 Parabéns à equipe pelo excelente trabalho!
+          👏 Parabéns à equipe pelo excelente trabalho!
