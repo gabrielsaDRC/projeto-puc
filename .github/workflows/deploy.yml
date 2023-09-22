@@ -16,6 +16,14 @@ jobs:
     - name: Build da aplicação
       run: npm install && CI=false npm run build
 
+    - name: Deploy to GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v4
+      with:
+        target_branch: gh-pages
+        build_dir: public
+      env: 
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+
     - name: Testes
       run: npm test
 
