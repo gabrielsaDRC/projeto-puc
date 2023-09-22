@@ -42,7 +42,7 @@ jobs:
       run: ls -la
 
     - name: Build
-      run: CI=false npm run build
+      run: npm install && CI=false npm run build
 
     - name: Deploy no GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1
