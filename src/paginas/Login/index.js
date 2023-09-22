@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import firebase from 'firebase';
 
 import './login.css';
@@ -18,11 +18,9 @@ class Login extends Component {
 
   async acessar() {
 
-    const { history } = this.props;
-
     await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha)
     .then(() => {
-      history.push('/home'); 
+      window.location.hash = '#/home'
     })
     .catch((erro) => {
       alert(erro)
@@ -45,4 +43,4 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login);
+export default Login;
