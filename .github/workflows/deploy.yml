@@ -16,12 +16,20 @@ jobs:
     - name: Build da aplicação
       run: npm install && CI=false npm run build
 
-    - name: Testes
-      run: npm test
-
     #- name: DAST
       # Execute o teste DAST aqui usando uma ferramenta como OWASP ZAP.
-
+  
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Testes
+      run: npm test
+  
+  docker_upload:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
     - name: Login no DockerHub
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
@@ -29,9 +37,9 @@ jobs:
       run: |
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/deploypuc:testeDeploy1 .
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/deploypuc:testeDeploy1
-
+  
   deploy:
-    needs: build
+    needs: docker_upload
     runs-on: ubuntu-latest
 
     steps:
