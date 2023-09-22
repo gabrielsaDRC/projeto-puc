@@ -59,30 +59,31 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v2
+    - name: Checkout do código
+      uses: actions/checkout@v2
 
-      - name: Verificar diretório atual
-        run: echo ${{ github.workspace }}
-    
-      - name: Pull OWASP
-        run: docker pull owasp/zap2docker-stable
-    
-      - name: Run ZAP API Scan
-        run: |
-          set +e
-          docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J report_json
-          result=$?
-          set -e
-          if [ $result -ne 0 ]; then
-            echo "O comando ZAP falhou, mas continuando..."
-          fi
-        env:
+    - name: Verificar diretório atual
+      run: echo ${{ github.workspace }}
+  
+    - name: Pull OWASP
+      run: docker pull owasp/zap2docker-stable
+  
+    - name: Run ZAP API Scan
+      run: |
+        set +e
+        docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J report_json
+        result=$?
+        set -e
+        if [ $result -ne 0 ]; then
+          echo "O comando ZAP falhou, mas continuando..."
+        fi
+      env:
           URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
     
   send_message:
     needs: owasp
     runs-on: ubuntu-latest
+    steps:
     - name: Notificação Telegram
       uses: appleboy/telegram-action@master
       with:
