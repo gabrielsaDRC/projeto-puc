@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,21 +16,14 @@ jobs:
     - name: Build da aplicação
       run: npm install && CI=false npm run build
 
+    - name: Testes
+      run: npm test
+
     #- name: DAST
       # Execute o teste DAST aqui usando uma ferramenta como OWASP ZAP.
   
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout do código
-      uses: actions/checkout@v2
-
-    - name: Testes
-      run: npm test
-  
   docker_upload:
-    needs: test
+    needs: build_and_test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do código
