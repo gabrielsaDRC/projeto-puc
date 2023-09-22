@@ -22,19 +22,33 @@ jobs:
     #- name: DAST
       # Execute o teste DAST aqui usando uma ferramenta como OWASP ZAP.
   
-  scans:
-    #needs: build_and_test
-    runs-on: ubuntu-latest
+  owasp:
+    runs-on: ubuntu-latest # Define o ambiente de execução
+
     steps:
-    - name: Checkout do código
-      uses: actions/checkout@v2
+      - name: Checkout do código
+        uses: actions/checkout@v2 # Faz o checkout do repositório
 
-    - name: Pull OWASP
-      run: docker pull owasp/zap2docker-weekly
+      - name: Executar varredura OWASP ZAP
+        run: |
+          docker run -v ${{ github.workspace }}:/zap/wrk -u $(id -u ${USER}):$(id -g ${USER}) -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J report_json
+        env:
+          URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
 
-    - name: Run ZAP API Scan
-      run: |
-        sudo docker run -v $GITHUB_WORKSPACE:/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t openapi.json -f openapi -c api-scan.conf
+      - name: Salvar relatório
+        if: success() # Apenas execute se a etapa anterior for bem-sucedida
+        run: mv report_json /github/workspace/report_json.json
+
+      - name: Upload de artefato
+        if: success() # Apenas execute se a etapa anterior for bem-sucedida
+        uses: actions/upload-artifact@v2
+        with:
+          name: owasp-report
+          path: /github/workspace/report_json.json
+
+      - name: Exibir relatório de varredura
+        if: success() # Apenas execute se a etapa anterior for bem-sucedida
+        run: cat /github/workspace/report_json.json
 
 
 
