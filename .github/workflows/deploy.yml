@@ -23,34 +23,18 @@ jobs:
       # Execute o teste DAST aqui usando uma ferramenta como OWASP ZAP.
   
   owasp:
-    runs-on: ubuntu-latest # Define o ambiente de execução
-
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v2 # Faz o checkout do repositório
-
-      - name: Executar varredura OWASP ZAP
-        run: |
-          docker run -v ${{ github.workspace }}:/zap/wrk -u $(id -u ${USER}):$(id -g ${USER}) -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J report_json
-        env:
-          URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
-
-      - name: Salvar relatório
-        if: success() # Apenas execute se a etapa anterior for bem-sucedida
-        run: mv report_json /github/workspace/report_json.json
-
-      - name: Upload de artefato
-        if: success() # Apenas execute se a etapa anterior for bem-sucedida
-        uses: actions/upload-artifact@v2
-        with:
-          name: owasp-report
-          path: /github/workspace/report_json.json
-
-      - name: Exibir relatório de varredura
-        if: success() # Apenas execute se a etapa anterior for bem-sucedida
-        run: cat /github/workspace/report_json.json
-
-
+    image: docker:latest
+    stage: Dynamic Application Security Testing
+    script:
+      - echo 'hello!'
+      - ls
+      - docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J /zap/wrk/report_json.json
+    artifacts:
+      when: always
+      paths: [report_json.json]
+    allow_failure: true
+    env:
+      URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
 
   docker_upload:
     needs: owasp
