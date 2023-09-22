@@ -27,8 +27,8 @@ jobs:
 
     - name: Build e Envio da imagem Docker
       run: |
-        docker build -t deploypuc:testeDeploy1 .
-        docker push deploypuc:testeDeploy1
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/deploypuc:testeDeploy1 .
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/deploypuc:testeDeploy1
 
   deploy:
     needs: build
