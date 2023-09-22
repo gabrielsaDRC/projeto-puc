@@ -19,36 +19,8 @@ jobs:
     - name: Testes
       run: npm test
 
-    #- name: DAST
-      # Execute o teste DAST aqui usando uma ferramenta como OWASP ZAP.
-  
-  owasp:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v2
-
-      - name: Verificar diretório atual
-        run: echo ${{ github.workspace }}
-    
-      - name: Pull OWASP
-        run: docker pull owasp/zap2docker-stable
-    
-      - name: Run ZAP API Scan
-        run: |
-          set +e
-          docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J report_json
-          result=$?
-          set -e
-          if [ $result -ne 0 ]; then
-            echo "O comando ZAP falhou, mas continuando..."
-          fi
-        #  docker run -v ${{ github.workspace }}/zap_reports:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J /zap/wrk/report_json.json
-        env:
-          URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
-
   docker_upload:
-    needs: owasp
+    needs: build_and_test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do código
@@ -82,19 +54,47 @@ jobs:
         build_dir: build
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+  
+  owasp:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
+
+      - name: Verificar diretório atual
+        run: echo ${{ github.workspace }}
     
-    - name: Notificação Telegram
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: |
-          🚀 **Novo Deploy Realizado** 🚀
+      - name: Pull OWASP
+        run: docker pull owasp/zap2docker-stable
+    
+      - name: Run ZAP API Scan
+        run: |
+          set +e
+          docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J report_json
+          result=$?
+          set -e
+          if [ $result -ne 0 ]; then
+            echo "O comando ZAP falhou, mas continuando..."
+          fi
+        env:
+          URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
+    
+    end:
+      needs: owasp
+      runs-on: ubuntu-latest
+      - name: Notificação Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            🚀 **Novo Deploy Realizado** 🚀
 
-          **Status do Build:** Concluído com sucesso
-          **Versão do Aplicativo:** 1.0.0
-          **Link para o Projeto:** [Acessar Projeto](https://gabrielsadrc.github.io/projeto-puc/)
+            **Status do Build:** Concluído com sucesso
+            **Versão do Aplicativo:** 1.0.0
+            **Link para o Projeto:** [Acessar Projeto](https://gabrielsadrc.github.io/projeto-puc/)
 
-          ✅ O deploy foi realizado com sucesso!
+            ✅ O deploy foi realizado com sucesso!
 
-          👏 Parabéns à equipe pelo excelente trabalho!
+            👏 Parabéns à equipe pelo excelente trabalho!
