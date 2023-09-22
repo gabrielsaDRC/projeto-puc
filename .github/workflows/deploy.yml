@@ -35,6 +35,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout do código
+      uses: actions/checkout@v2
+
+    - name: Listar conteúdo do diretório
+      run: ls -la
+
     - name: Deploy no GitHub Pages
       run: |
         npm install
