@@ -43,5 +43,7 @@ jobs:
 
     - name: Deploy no GitHub Pages
       run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@users.noreply.github.com"
         npm install
         CI=false npm run deploy
