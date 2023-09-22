@@ -20,16 +20,12 @@ class Login extends Component {
 
     await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha)
     .then(() => {
-       window.location.href = "./home"
+       window.location.href = "./#/home"
     })
     .catch((erro) => {
       alert(erro)
     })
 
-  }
-
-  async cadastrar() {
-    window.location.href = "./cadastro"
   }
 
   render() {
