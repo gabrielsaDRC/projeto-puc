@@ -41,6 +41,9 @@ jobs:
     - name: Listar conteúdo do diretório
       run: ls -la
 
+    - name: Build
+      run: CI=false npm run build
+
     - name: Deploy no GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1
       with:
