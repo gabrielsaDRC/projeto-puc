@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/projeto-puc/static/css/main.35868a54.css",
+    "main.js": "/projeto-puc/static/js/main.112d6cef.js",
+    "static/js/787.f1d16bec.chunk.js": "/projeto-puc/static/js/787.f1d16bec.chunk.js",
+    "index.html": "/projeto-puc/index.html",
+    "main.35868a54.css.map": "/projeto-puc/static/css/main.35868a54.css.map",
+    "main.112d6cef.js.map": "/projeto-puc/static/js/main.112d6cef.js.map",
+    "787.f1d16bec.chunk.js.map": "/projeto-puc/static/js/787.f1d16bec.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.35868a54.css",
+    "static/js/main.112d6cef.js"
+  ]
+}
