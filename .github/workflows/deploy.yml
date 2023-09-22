@@ -16,17 +16,6 @@ jobs:
     - name: Build da aplicação
       run: npm install && CI=false npm run build
 
-    - name: Deploy no GitHub Pages
-      run: |
-        git config --global user.name "gabrielsaDRC"
-        git config --global user.email "gabrieldossantos0788@gmail.com"
-        export GITHUB_ACTOR=gabrielsaDRC
-        export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-        npm install
-        CI=false npm run deploy
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Testes
       run: npm test
 
