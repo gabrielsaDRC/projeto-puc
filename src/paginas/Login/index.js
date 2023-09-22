@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import firebase from 'firebase';
-import { withRouter } from 'react-router-dom';
 
 import './login.css';
 
