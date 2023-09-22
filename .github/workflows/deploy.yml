@@ -23,19 +23,29 @@ jobs:
       # Execute o teste DAST aqui usando uma ferramenta como OWASP ZAP.
   
   owasp:
-    image: docker:latest
-    stage: Dynamic Application Security Testing
-    script:
-      - echo 'hello!'
-      - ls
-      - docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J /zap/wrk/report_json.json
-    artifacts:
-      when: always
-      paths: [report_json.json]
-    allow_failure: true
-    env:
-      URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
 
+      - name: Verificar diretório atual
+        run: echo ${{ github.workspace }}
+    
+      - name: Pull OWASP
+        run: docker pull owasp/zap2docker-stable
+    
+      - name: Run ZAP API Scan
+        run: |
+          docker run -v ${{ github.workspace }}:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J /zap/wrk/report_json.json
+        env:
+          URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
+    
+      - name: Upload de artefatos
+        uses: actions/upload-artifact@v2
+        with:
+          name: zap-reports
+          path: /zap/wrk/report_json.json
+          
   docker_upload:
     needs: owasp
     runs-on: ubuntu-latest
