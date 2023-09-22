@@ -44,4 +44,4 @@ jobs:
     - name: Deploy no GitHub Pages
       run: |
         npm install
-        npm run deploy
+        CI=false npm run deploy
