@@ -43,7 +43,14 @@ jobs:
 
     - name: Deploy no GitHub Pages
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@users.noreply.github.com"
+        git config --global user.name "gabrielsaDRC"
+        git config --global user.email "gabrieldossantos0788@gmail.com"
         npm install
         CI=false npm run deploy
+    
+    - name: Notificação Telegram
+      uses: appleboy/telegram-action@v1
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: "A pipeline foi concluída com sucesso!"
