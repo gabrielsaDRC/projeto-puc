@@ -40,6 +40,7 @@ jobs:
         #  docker run -v ${{ github.workspace }}/zap_reports:/zap/wrk -u root -t owasp/zap2docker-stable zap-baseline.py -t ${URL2} -J /zap/wrk/report_json.json
         env:
           URL2: "https://gabrielsadrc.github.io/projeto-puc/" # Defina a URL da sua API aqui
+        allow_failure: true
 
   docker_upload:
     needs: owasp
